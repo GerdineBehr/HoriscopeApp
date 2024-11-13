@@ -9,7 +9,7 @@ const cors = require("cors");
 const { logger } = require("./backend/utils/logger");
 
 //set up server
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 4000;
 
 app.use(express.json({ limit: "5mb" })); //middleware - parse json req.body
 app.use(express.static("public")); //middleware - serve static files

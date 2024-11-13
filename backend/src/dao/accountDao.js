@@ -45,6 +45,6 @@ async function createAccount(account) {
 module.exports = {
   createAccount,
   getAccountById,
-  getAcccountByUsername,
+  getAccountByUsername,
   createAccount,
 };

@@ -25,6 +25,15 @@ async function getAccountById(id) {
   });
 }
 
+async function getAccountByUsername(username) {
+  const command = new GetCommand({
+    TableName,
+    Key: {
+      username,
+    },
+  });
+}
+
 async function createAccount(account) {
   const command = new PutCommand({
     TableName,
@@ -36,4 +45,6 @@ async function createAccount(account) {
 module.exports = {
   createAccount,
   getAccountById,
+  getAcccountByUsername,
+  createAccount,
 };

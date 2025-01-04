@@ -1,17 +1,37 @@
 const AWS = require("aws-sdk");
-const dynamoDb = new AWS.DynamoDB.DocumentClient();
-const { PutCommand } = require("@aws-sdk/lib-dynamodb");
+const client = new AWS.DynamoDB.DocumentClient();
+const documentClient = DynamoDBDocumentClient.from(client);
+const { DynamoDBClient } = require("@aws-sdk/client-dynamodb");
+const {
+  DynamoDBDocumentClient,
+  GetCommand,
+  PutCommand,
+  UpdateCommand,
+  DeleteCommand,
+  ScanCommand,
+  QueryCommand,
+} = require("@aws-sdk/lib-dynamodb");
+
+const { logger } = require("../utils/logger");
+
 const TableName = "horiscope_accounts";
 
 //Functions for account table
 
 //Function to create an Account
 
-async function createAccount(account) {
+async function createAccount(Item) {
   const command = new PutCommand({
     TableName,
-    Item: account,
+    Item,
   });
+
+  try {
+    const data = await documentClient.send(command);
+    return data;
+  } catch (err) {
+    logger.error(err);
+  }
 }
 
 //Function to get an Account by id
@@ -42,9 +62,28 @@ async function createAccount(account) {
     },
   });
 }
+
+//Function to delete an account
+async function deleteAccountById(account_id) {
+  const commnad = new DeleteCommand({
+    TableName,
+    Key: {
+      account_id,
+    },
+  });
+
+  try {
+    const data = await documentClient.send(command);
+    return data;
+  } catch (err) {
+    logger.error(err);
+  }
+}
+
 module.exports = {
   createAccount,
   getAccountById,
   getAccountByUsername,
   createAccount,
+  deleteAccountById,
 };

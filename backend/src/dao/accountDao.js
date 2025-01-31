@@ -63,6 +63,27 @@ async function createAccount(account) {
   });
 }
 
+//Function to update an account 
+async function updateAccountById(account_id, UpdateExpression, ExpressionAttributeValues) {
+  const command = new UpdateCommand({
+    TableName,
+    Key: {
+      account_id,
+    },
+    UpdateExpression,
+    ExpressionAttributeValues,
+    ReturnValues: "ALL_NEW",
+  });
+
+  try {
+    const data = await documentClient.send(command);
+    return data;
+  } catch (err) {
+    logger.error(err);
+  }
+}
+
+
 //Function to delete an account
 async function deleteAccountById(account_id) {
   const commnad = new DeleteCommand({
@@ -85,5 +106,6 @@ module.exports = {
   getAccountById,
   getAccountByUsername,
   createAccount,
+  updateAccountById,
   deleteAccountById,
 };
